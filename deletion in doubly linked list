@@ -1,0 +1,148 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+    int data;
+    struct node *prev,*next;
+}*head;
+struct node *getnode()
+{
+    struct node *newn;
+    newn=(struct node *)malloc(sizeof(struct node));
+    newn->next=NULL;
+    return newn;
+}
+
+struct node *insertf(int x)
+{
+    struct node *p;
+    p=getnode();
+    p->data=x;
+    if(head==NULL)
+    {
+        head=p;
+        return head;
+    }
+    else
+    {
+       
+        p->next=head;
+        head->prev=p;
+        head=p;
+        return head;
+    }
+}
+struct node *inserte(int x)
+{
+    struct node *p,*temp;
+    p=getnode();
+    p->data=x;
+    if(head==NULL)
+    {
+       head=p;
+       return head;
+    }
+    else
+    {
+        temp=head;
+        while(temp->next!=NULL)
+        {
+            temp=temp->next;
+        }
+        temp->next=p;
+        p->prev=temp;
+        return head;
+    }
+    
+}
+struct node *insertp(int pos,int x)
+{
+    int count=0;
+    struct node *temp,*p,*t1;
+    p=getnode();
+    p->data=x;
+    if(head==NULL)
+    {
+        printf("list is empty");
+    }
+    else
+    {
+        temp=head;
+        while(temp->next!=NULL)
+        {
+            count++;
+            if(count==pos)
+            {
+                p->prev=t1->next;
+                p->next=temp;
+                t1->next=p;
+                temp->prev=p;
+               break;
+            }
+            t1=temp;
+            temp=temp->next;
+            
+        }
+    }
+    return head;
+}
+void display()
+{
+    struct node *temp;
+    temp=head;
+    if(head==NULL)
+    {
+        printf("list is empty");
+    }
+    else
+    {
+        while(temp!=NULL)
+        {
+            printf("%d ",temp->data);
+            temp=temp->next;
+        }
+    }
+    
+}
+int main()
+{
+    head=NULL;
+    int ch,c=1,pos,x,i;
+    while(c)
+    {
+        scanf("%d",&ch);
+        switch(ch)
+        {
+            case 1:
+            scanf("%d",&x);
+            insertf(x);
+            c=1;
+            break;
+            case 2:
+            scanf("%d",&x);
+            inserte(x);
+            c=1;
+            break;
+            case 3:
+            scanf("%d %d",&pos,&x);
+            insertp(pos,x);
+            printf("Node Inserted ");
+            printf("\n");
+            c=1;
+            break;
+            case 4:
+            display();
+            printf("\n");
+            c=1;
+            break;
+            case 5:
+            c=0;
+            break;
+            default:
+            printf("Wrong Choice");
+            c=0;
+            break;
+            
+        }
+    }
+}
