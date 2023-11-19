@@ -1,0 +1,40 @@
+// You are using GCC
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+int main()
+{
+    char str[100],ch,stack[100];
+    int i,top=-1;
+    scanf("%s",str);
+    int len=strlen(str);
+    for(i=0;i<len;i++)
+    {
+        ch=str[i];
+        if(ch=='(' || ch=='{' || ch=='[')
+        {
+            top++;
+            stack[top]=ch;
+        }
+        else if(ch==')' || ch=='}' || ch==']')
+        {
+    
+            if(top==-1 || (ch==')' && stack[top]!='(') || (ch=='}' && stack[top]!='{') || (ch==']' && stack[top]!='['))
+            {
+                
+                top=-2;
+                break;
+            }
+            top--;
+        }
+    }
+    if(top==-1)
+    {
+        printf("True");
+    }
+    else
+    {
+        printf("False");
+    }
+    
+}
