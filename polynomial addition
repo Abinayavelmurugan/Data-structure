@@ -1,0 +1,143 @@
+Polynomial addition
+// You are using GCC
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+    int coeff;
+    int expo;
+    struct node *next;
+}*head1,*head2;
+struct node *getnode()
+{
+    struct node *p;
+    p=(struct node *)malloc(sizeof(struct node));
+    p->next=NULL;
+    return p;
+}
+struct node *insert(struct node *h,int c,int e)
+{
+    struct node *p,*t;
+    p=getnode();
+    p->coeff=c;
+    p->expo=e;
+    if(h==NULL)
+    {
+        h=p;
+        return h;
+       
+    }
+    else
+    { 
+        t=h;
+        while(t->next!=NULL)
+        {
+            t=t->next;
+        }
+        t->next=p;
+    }
+    return h;
+}
+struct node *createlist(struct node *h3,int c,int e)
+{
+    struct node *temp,*p;
+    p=getnode();
+    p->coeff=c;
+    p->expo=e;
+    if(h3==NULL)
+    {
+        h3=p;
+        return h3;
+    }
+    else
+    {
+        temp=h3;
+        while(temp->next!=NULL)
+        {
+            temp=temp->next;
+        }
+        temp->next=p;
+        
+    }
+    return h3;
+}
+void display(struct node *h)
+{
+    struct node *temp;
+    temp=h;
+    while(temp!=NULL)
+    {
+        printf("(%dx^%d)",temp->coeff,temp->expo);
+        
+        if(temp->next!=NULL)
+        {
+            printf(" + ");
+        }
+        temp=temp->next;
+    }
+    
+}
+struct node *add(struct node *head1, struct node *head2)
+{
+    struct node *t1,*t2,*h3;
+    t1=head1;
+    t2=head2;
+    h3=NULL;
+    while(t1!=NULL &&  t2!=NULL)
+    {
+        if(t1->expo==t2->expo)
+        {
+            h3=createlist(h3,t1->coeff+t2->coeff,t1->expo);
+            t1=t1->next;
+            t2=t2->next;
+        }
+        else if(t1->expo > t2->expo)
+        {
+            h3=createlist(h3,t1->coeff,t1->expo);
+            t1=t1->next;
+        }
+        else{
+            h3=createlist(h3,t2->coeff,t2->expo);
+            t2=t2->next;
+        }
+    }
+    while(t1!=NULL)
+    {
+        h3=createlist(h3,t1->coeff,t1->expo);
+        t1=t1->next;
+    }
+    while(t2!=NULL)
+    {
+        h3=createlist(h3,t2->coeff,t2->expo);
+        t2=t2->next;
+    }
+    return h3;
+    
+}
+int main()
+{
+    head1=NULL;
+    head2=NULL;
+    int n,i,c,e;
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf("%d %d",&c,&e);
+        head1=insert(head1,c,e);
+    }
+    //display(head1);
+    int m;
+    scanf("%d",&m);
+    for(i=0;i<m;i++)
+    {
+        scanf("%d %d",&c,&e);
+        head2=insert(head2,c,e);
+    }
+    //display(head2);
+    struct node *res=add(head1,head2);
+    display(res);
+    //display(head1);
+    //printf("\n");
+    //display(head2);
+    return 0;
+}        
