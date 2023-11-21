@@ -1,0 +1,117 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+	int data;
+	struct node *left;
+	struct node *right;
+}*head,*temp,*a[50];
+struct node *getnode()
+{
+	struct node *p=(struct node*)malloc(sizeof(struct node));
+	p->left=NULL;
+	p->right=NULL;
+	return p;
+}
+struct node *display(struct node *t)
+{
+	if(t==NULL)
+	{
+		return;
+	}
+	else
+	{
+		printf("%d ",t->data);
+		display(t->left);
+		display(t->right);
+	}
+}
+void samelevel(struct node *head,int key)
+{
+	if(head==NULL)
+	{
+		printf("tree is empty");
+		return;
+	}
+	struct node *queue[50],*t;
+	int front=0,rear=0,level=1,clevel=1,found=0;
+	queue[rear++]=head;
+	while(front<rear)
+	{
+		int size=rear-front;
+		found=0;
+		while(size>0)
+		{
+		struct node *current=queue[front++];
+		if(current->left!=NULL)
+		{
+			//rear++;
+			queue[rear++]=current->left;
+		}
+		if(current->right!=NULL)
+		{
+			//rear++;
+			queue[rear++]=current->right;
+		}
+		if (found ) {
+                printf("The node at the same level to the right is: %d\n", current->data);
+                return;
+            }
+
+            if (current->data == key) {
+                found = 1;
+            }
+            size--;
+        }
+	}
+	printf("no node at same level to the right");
+	
+}
+int main()
+{
+	head=NULL;
+	int i=0,j=0,k,item,node,flag=0,x;
+	struct node *p;
+	scanf("%d",&item);
+	p=getnode();
+	p->data=item;
+	head=p;
+	a[i]=p;
+	i++;
+	printf("enter the number of nodes : ");
+	scanf("%d",&node);
+	for(k=0;k<node-1;k++)
+	{
+		p=getnode();
+		scanf("%d",&item);
+		p->data=item;
+		temp=a[j];
+		//a[i]=p;
+		if(flag==0)
+		{
+				temp->left=p;
+				a[i]=p;
+				i++;
+				flag=1;
+	   }
+				
+		else
+			{
+					temp->right=p;
+					a[i]=p;
+					i++;
+					j++;
+					flag=0;
+
+			}
+		
+		
+		
+	}
+	display(head);
+	printf("enter the node to be which next right is to find : ");
+	scanf("%d",&x);
+	samelevel(head,x);
+	
+	
+}
