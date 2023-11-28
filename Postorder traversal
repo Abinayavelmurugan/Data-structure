@@ -1,0 +1,104 @@
+// You are using Gcc
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+    int data;
+    struct node *left;
+    struct node *right;
+}*head;
+struct node *getnode()
+{
+    struct node *p=(struct node*)malloc(sizeof(struct node));
+    p->left=NULL;
+    p->right=NULL;
+    return p;
+}
+struct node *BSTcreate(int x)
+{
+    struct node *p,*temp;
+    p=getnode();
+    p->data=x;
+    if(head==NULL)
+    {
+        head=p;
+        return head;
+    }
+    if(head->left==NULL && head->right==NULL)
+    {
+        if(p->data<head->data)
+        {
+            head->left=p;
+        }
+        else
+        {
+            head->right=p;
+        }
+    }
+    else
+    {
+        int c=1;
+        temp=head;
+        while(c)
+        {
+            if(p->data<temp->data)
+            {
+                if(temp->left==NULL)
+                {
+                    temp->left=p;
+                    c=0;
+                }
+                else
+                {
+                    temp=temp->left;
+                }
+            }
+            else if(p->data>temp->data)
+            {
+                if(temp->right==NULL)
+                {
+                    temp->right=p;
+                    c=0;
+                }
+                else
+                {
+                    temp=temp->right;
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+    return head;
+}
+void postorder(struct node *temp)
+{
+    if(temp==NULL)
+    {
+        return;
+    }
+    else
+    {
+        postorder(temp->left);
+        postorder(temp->right);
+        printf("%d ",temp->data);
+    }
+}
+int main()
+{
+    int x;
+    head=NULL;
+    scanf("%d",&x);
+    head=BSTcreate(x);
+    while(x>=1)
+    {
+        scanf("%d",&x);
+        if(x>=1)
+        {
+            head=BSTcreate(x);
+        }
+    }
+    postorder(head);
+}
