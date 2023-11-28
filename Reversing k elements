@@ -1,0 +1,33 @@
+// You are using GCC
+#include<stdio.h>
+#include<stdlib.h>
+void reverse(int k, int n, int b[],int a[])
+{
+    int i=0;
+    for(i=0;i<k;i++)
+    {
+        a[i]=b[k-1-i];
+    }
+}
+
+int main()
+{
+    int n,k,data;
+    scanf("%d",&n);
+    int a[n],i;
+    for(i=0;i<n;i++)
+    {
+       scanf("%d",&a[i]);
+    }
+    scanf("%d",&k);
+    int b[k];
+    for(i=0;i<k;i++)
+    {
+        b[i]=a[i];
+    }
+    reverse(k,n,b,a);
+    for(i=0;i<n;i++)
+    {
+        printf("%d ",a[i]);
+    }
+}
