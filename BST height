@@ -1,0 +1,16 @@
+int height(struct node *t)
+{
+    if(t!=NULL)
+    {
+    int lh=height(t->left);
+    int rh=height(t->right);
+    if(lh>rh)
+    {
+        return (lh+1);
+    }
+    else
+    {
+        return (rh+1);
+    }
+    }
+}
