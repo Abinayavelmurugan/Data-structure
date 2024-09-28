@@ -1,0 +1,53 @@
+import java.util.*;
+class Node{
+    int data;
+    Node next;
+    
+    Node(){
+        this.data=0;
+        this.next=null;
+    }
+    
+    Node(int data){
+        this.data=data;
+        this.next=null;
+    }
+}
+public class Main
+{
+   static Node createLL(int[] a){
+        Node head=new Node(a[0]);
+        Node move=head;
+        for(int i=1;i<a.length;i++){
+            Node temp=new Node(a[i]);
+            move.next=temp;
+            move=temp;
+        }
+        return head;
+    }
+    
+   static void traverseLL(Node head){
+        Node temp=head;
+        while(temp!=null){
+            System.out.println(temp.data);
+            temp=temp.next;
+        }
+    }
+	public static void main(String[] args) {
+	    Scanner s=new Scanner(System.in);
+	     System.out.print("Enter the length of the array: ");
+	    int n=s.nextInt();
+	    int[] a=new int[n];
+	     System.out.println("Enter the array elements: ");
+	    for(int i=0;i<n;i++){
+	        a[i]=s.nextInt();
+	    }
+	     
+	    Node head=createLL(a);
+	    System.out.println("***LinkedList created***");
+	    System.out.println("Traversing the LinkedList");
+	    traverseLL(head);
+	    
+		
+	}
+}
