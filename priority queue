@@ -1,0 +1,95 @@
+
+
+#include <stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#define MAX 100
+typedef struct {
+int size;
+    int items[MAX];
+} priority;
+void swap(int *a, int *b){
+    int temp=*a;
+    *a=*b;
+    *b=temp;
+}
+
+int heapifyup(priority *pq, int index){
+    if(index && pq->items[(index-1)/2] > pq->items[index]){
+        swap(&pq->items[(index-1)/2], &pq->items[index]);
+        heapifyup(pq,(index-1)/2);
+    }
+}
+
+void enqueue(priority *pq, int value){
+    if(pq->size==MAX){
+        printf("Queue is full\n");
+        return;
+    }
+    pq->items[pq->size++]=value;
+   
+    heapifyup(pq,pq->size-1);
+}
+
+int peek(priority *pq){
+    return pq->items[0];
+}
+int heapifydown(priority *pq, int index){
+    int smallest=index;
+    int left=2*index+1;
+    int right=2*index+2;
+    
+    if(left<pq->size && pq->items[left]<pq->items[smallest]){
+        smallest=left;
+    }
+    if(right<pq->size && pq->items[right]<pq->items[smallest]){
+        smallest=right;
+    }
+    if(smallest !=index){
+        swap(&pq->items[smallest] , &pq->items[index]);
+        heapifydown(pq,smallest);
+    }
+    
+}
+int dequeue(priority *pq){
+    if(!pq->size){
+        printf("Queue is empty\n");
+        return -1;
+    }
+    int item=pq->items[0];
+    pq->items[0]=pq->items[--pq->size];
+    heapifydown(pq,0);
+    return item;
+    
+    
+}
+
+
+
+int main()
+{
+     priority pq={0,{0}};
+     
+     
+          enqueue(&pq, 3);
+    enqueue(&pq, 2);
+    enqueue(&pq, 15);
+    enqueue(&pq, 5);
+    enqueue(&pq, 4);
+    enqueue(&pq, 45);
+    print(&pq);
+
+         
+         printf("%d\n",dequeue(&pq));
+         printf("%d\n",peek(&pq));
+         
+         
+     
+         
+     
+     
+    
+     
+
+    return 0;
+}
