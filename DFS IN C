@@ -1,0 +1,47 @@
+
+
+#include <stdio.h>
+#include<stdbool.h>
+#define MAX 100
+
+void dfsa(int val,int v, int adj[MAX][MAX],bool vis[MAX]){
+    vis[val]=true;
+    printf("%d\n",val);
+    for(int i=0;i<v;i++){
+        if(adj[val][i]==1 && vis[i]==false)
+        dfsa(i,v,adj,vis);
+    }
+}
+
+void dfs(int v, int adj[MAX][MAX]){
+    bool vis[MAX]={false};
+    dfsa(0,v,adj,vis);
+}
+
+int main()
+{
+    int v,e;
+    
+    printf("Enter the number of vertices: ");
+    scanf("%d",&v);
+    printf("Enter the number of edges: ");
+    scanf("%d",&e);
+    int adj[MAX][MAX]={0};
+    for(int i=0;i<e;i++){
+        int x,y;
+        scanf("%d %d",&x,&y);
+        adj[x][y]=1;
+        adj[y][x]=1;
+    }
+    
+    
+    dfs(v,adj);
+    
+
+    return 0;
+}
+
+
+
+
+
