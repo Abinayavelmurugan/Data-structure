@@ -1,0 +1,87 @@
+
+
+#include <stdio.h>
+#include<stdbool.h>
+#define MAX 100
+
+typedef struct{
+    int items[MAX];
+    int front,rear;
+} Queue;
+
+void init(Queue *q){
+    q->front=-1;
+    q->rear=-1;
+}
+void enqueue(Queue *q,int value){
+    if(q->rear==MAX-1) {
+        printf("Queue is full");
+        return;
+    }
+    if(q->front==-1) q->front=0;
+    q->rear++;
+    q->items[q->rear]=value;
+}
+int deqeue(Queue *q){
+    if(q->front==-1) {
+        printf("Queue is empty");
+        return -1;
+    }
+        int item=q->items[q->front];
+        if(q->front>=q->rear) q->front=q->rear=-1;
+        
+        else q->front++;
+        return item;
+    
+}
+bool isEmpty(Queue *q){
+    return q->front==-1;
+}
+
+void bfs(int v, int adj[MAX][MAX]){
+    bool vis[MAX]={false};
+    Queue q;
+    init(&q);
+    enqueue(&q,0);
+    vis[0]=true;
+    
+    while(!isEmpty(&q)){
+        int node=deqeue(&q);
+        if(node==-1) break;
+        printf("%d\n",node);
+        for(int i=0;i<v;i++){
+            if(adj[node][i]==1 &&vis[i]==false){
+                vis[i]=true;
+                enqueue(&q,i);
+            }
+        }
+    }
+}
+
+int main()
+{
+    int v,e;
+    
+    printf("Enter the number of vertices: ");
+    scanf("%d",&v);
+    printf("Enter the number of edges: ");
+    scanf("%d",&e);
+    int adj[MAX][MAX]={0};
+    for(int i=0;i<e;i++){
+        int x,y;
+        scanf("%d %d",&x,&y);
+        adj[x][y]=1;
+        adj[y][x]=1;
+    }
+    
+    
+    bfs(v,adj);
+    
+
+    return 0;
+}
+
+
+
+
+
