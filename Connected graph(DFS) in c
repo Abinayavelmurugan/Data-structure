@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+#define MAX_NODES 100
+
+// Function to perform DFS and check for a cycle
+bool dfs(int node, int parent, bool visited[], int V, int adj[V][V]) {
+    visited[node] = true;
+
+    for (int i = 0; i < V; i++) {
+        if (adj[node][i]) { // If an edge exists
+            if (!visited[i]) {
+                if (dfs(i, node, visited, V, adj))
+                    return true;
+            } else if (i != parent) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+// Function to check if a cycle exists in the graph
+bool isCycle(int V, int adj[V][V]) {
+    bool visited[V];
+    for (int i = 0; i < V; i++) {
+        visited[i] = false;
+    }
+
+    for (int i = 0; i < V; i++) {
+        if (!visited[i]) {
+            if (dfs(i, -1, visited, V, adj))
+                return true;
+        }
+    }
+    return false;
+}
+
+int main() {
+    int V = 4;
+    int adj[4][4] = {0}; // Adjacency matrix initialization
+
+    // Adding edges
+    adj[1][2] = 1;
+    adj[2][1] = 1;
+    adj[2][3] = 1;
+    adj[3][2] = 1;
+
+    if (isCycle(V, adj))
+        printf("1\n");
+    else
+        printf("0\n");
+
+    return 0;
+}
