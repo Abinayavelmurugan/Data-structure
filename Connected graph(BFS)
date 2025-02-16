@@ -1,0 +1,101 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+#define MAX_NODES 100
+
+typedef struct Node {
+    int vertex;
+    int parent;
+} Node;
+
+typedef struct Queue {
+    Node nodes[MAX_NODES];
+    int front, rear;
+} Queue;
+
+void initQueue(Queue *q) {
+    q->front = q->rear = -1;
+}
+
+bool isEmpty(Queue *q) {
+    return q->front == -1;
+}
+
+void enqueue(Queue *q, int vertex, int parent) {
+    if (q->rear == MAX_NODES - 1) return;
+    if (q->front == -1) q->front = 0;
+    q->rear++;
+    q->nodes[q->rear].vertex = vertex;
+    q->nodes[q->rear].parent = parent;
+}
+
+Node dequeue(Queue *q) {
+    Node temp = q->nodes[q->front];
+    if (q->front == q->rear) {
+        q->front = q->rear = -1;
+    } else {
+        q->front++;
+    }
+    return temp;
+}
+
+// Function to detect cycle using BFS
+bool checkForCycle(int V, int adj[V][V], int start, bool visited[]) {
+    Queue q;
+    initQueue(&q);
+    enqueue(&q, start, -1);
+    visited[start] = true;
+
+    while (!isEmpty(&q)) {
+        Node current = dequeue(&q);
+        int node = current.vertex;
+        int parent = current.parent;
+
+        for (int i = 0; i < V; i++) {
+            if (adj[node][i]) { // If there is an edge
+                if (!visited[i]) {
+                    enqueue(&q, i, node);
+                    visited[i] = true;
+                } else if (i != parent) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+// Function to check if a cycle exists in the graph
+bool isCycle(int V, int adj[V][V]) {
+    bool visited[V];
+    for (int i = 0; i < V; i++) {
+        visited[i] = false;
+    }
+
+    for (int i = 0; i < V; i++) {
+        if (!visited[i]) {
+            if (checkForCycle(V, adj, i, visited)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+int main() {
+    int V = 4;
+    int adj[4][4] = {0}; 
+
+    adj[1][2] = 1;
+    adj[2][1] = 1;
+    adj[2][3] = 1;
+    adj[3][2] = 1;
+
+    if (isCycle(V, adj))
+        printf("1\n");
+    else
+        printf("0\n");
+
+    return 0;
+}
